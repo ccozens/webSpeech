@@ -1,6 +1,7 @@
 <!-- script -->
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import GithubCorner from '$lib/components/GithubCorner.svelte';
 	/*
 	 * Check for browser support
 	 */
@@ -107,6 +108,8 @@
 		>.
 	</p>
 </div>
+
+<GithubCorner />
 
 <style>
 	*,
