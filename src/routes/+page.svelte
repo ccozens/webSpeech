@@ -7,27 +7,33 @@
 	 */
 	let supportMsg: HTMLDivElement;
 
-	onMount(async () => {
+	// create voice and voices vars
+	let voice: SpeechSynthesisVoice;
+	let voices = [];
+
+
+
+	 // get the list of voices
+	 async function loadVoices() {
+    return new Promise((resolve) => {
+      speechSynthesis.onvoiceschanged = () => {
+        const voices = speechSynthesis.getVoices();
+        resolve(voices);
+      };
+    });
+  };
+
+  onMount(async() => {
 		if ('speechSynthesis' in window) {
 			supportMsg.innerHTML = 'Your browser <strong>supports</strong> speech synthesis.';
+			voices = await loadVoices();
+			voice = voices[0];
 		} else {
 			supportMsg.innerHTML =
 				'Sorry your browser <strong>does not support</strong> speech synthesis.<br>Try this in <a href="https://www.google.co.uk/intl/en/chrome/browser/canary.html">Chrome Canary</a>.';
 			supportMsg.classList.add('not-supported');
 		}
 	});
-
-	// create voice and voices vars
-	let voice: SpeechSynthesisVoice;
-	let voices: SpeechSynthesisVoice[] = [];
-	// get the list of voices
-	async function loadVoices() {
-		// fetch the available voices.
-		voices = speechSynthesis.getVoices();
-		// set default voice as first in list
-		voice = voices[0];
-		return voices;
-	}
 
 	// create speech message (speechMsg) and set default value
 	let speechMsg: string = 'Hello world';
@@ -45,12 +51,15 @@
 		utterance.volume = volume;
 		utterance.rate = rate;
 		utterance.pitch = pitch;
-
 		speechSynthesis.speak(utterance);
 	}
 
 	function speakOnClick() {
 		speak(speechMsg);
+	}
+
+	function blankInput() {
+		speechMsg = '';
 	}
 
 	// page visit store
@@ -67,19 +76,20 @@
 
 	<div bind:this={supportMsg} class="msg" />
 	<form>
-		<input type="text" bind:value={speechMsg} placeholder={speechMsg} />
+		<input type="text" bind:value={speechMsg} on:click={blankInput} />
 
 		<div class="option">
 			<label for="voice">Voice</label>
-			{#await loadVoices()}
-				<p>loading voices...</p>
-			{:then voices}
-				<select bind:value={voice}>
+			<select bind:value={voice}>
+				{#if voices}
 					{#each voices as voice}
 						<option value={voice}>{voice.name} | {voice.lang}</option>
+						{voice.name}
 					{/each}
-				</select>
-			{/await}
+					{:else}
+						<option value="">No voices loaded</option>
+					{/if}
+			</select>
 		</div>
 
 		<div class="option">
