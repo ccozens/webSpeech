@@ -52,6 +52,9 @@
 	function speakOnClick() {
 		speak(speechMsg);
 	}
+
+	// page visit store
+	export let data;
 </script>
 
 <svelte:head>
@@ -107,6 +110,7 @@
 			>svelte REPL JavaScript version</a
 		>.
 	</p>
+	<div class="visits">Page visits: {data?.pageVisits}</div>
 </div>
 
 <GithubCorner />
