@@ -1,38 +1,10 @@
-# create-svelte
+# Svelte web speech API demo
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+This is a working example of the [Web Speech API}(https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API) using [Svelte](http://svelte.dev). It is based on a CodePen by Matt West and modified to Svelte and TypeScript.
 
-## Creating a project
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+## Live versions
+### TypeScript
+[web speech demo at vercel](https://web-speech.vercel.app/)
+### Javascript
+[web speech Svelte REPL](https://svelte.dev/repl/b1dd771bc0554184bedf2ea2f4c4a47e?version=4.2.0).
