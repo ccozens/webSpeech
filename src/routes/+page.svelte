@@ -62,7 +62,7 @@
 		speechMsg = '';
 	}
 
-	// page visit store
+	// access store that gives page visits
 	export let data;
 </script>
 
