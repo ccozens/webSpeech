@@ -2,6 +2,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import GithubCorner from '$lib/components/GithubCorner.svelte';
+	import { parseUserAgent } from '$lib/functions/parseUserAgent.js';
+
+	// access data for page visits and user agent
+	export let data;
 	/*
 	 * Check for browser support
 	 */
@@ -11,19 +15,20 @@
 	let voice: SpeechSynthesisVoice;
 	let voices: SpeechSynthesisVoice[] = [];
 
+	// get the list of voices
+	async function loadVoices() {
+		return new Promise<SpeechSynthesisVoice[]>((resolve) => {
+			speechSynthesis.onvoiceschanged = () => {
+				const voices = speechSynthesis.getVoices();
+				resolve(voices);
+			};
+		});
+	}
 
+	let device: string = parseUserAgent(data.userAgent);
+	// load voices and parse user agent on mount
 
-	 // get the list of voices
-	 async function loadVoices() {
-    return new Promise<SpeechSynthesisVoice[]>((resolve) => {
-      speechSynthesis.onvoiceschanged = () => {
-        const voices = speechSynthesis.getVoices();
-        resolve(voices);
-      };
-    });
-  };
-
-  onMount(async() => {
+	onMount(async () => {
 		if ('speechSynthesis' in window) {
 			supportMsg.innerHTML = 'Your browser <strong>supports</strong> speech synthesis.';
 			voices = await loadVoices();
@@ -61,9 +66,6 @@
 	function blankInput() {
 		speechMsg = '';
 	}
-
-	// access store that gives page visits
-	export let data;
 </script>
 
 <svelte:head>
@@ -75,6 +77,7 @@
 	<h1>Web Speech Synthesis Demo</h1>
 
 	<div bind:this={supportMsg} class="msg" />
+	<div class="msg">You're browsing on {device}</div>
 	<form>
 		<input type="text" bind:value={speechMsg} on:click={blankInput} />
 
@@ -86,9 +89,9 @@
 						<option value={voice}>{voice.name} | {voice.lang}</option>
 						{voice.name}
 					{/each}
-					{:else}
-						<option value="">No voices loaded</option>
-					{/if}
+				{:else}
+					<option value="">No voices loaded</option>
+				{/if}
 			</select>
 		</div>
 
@@ -120,10 +123,17 @@
 			>svelte REPL JavaScript version</a
 		>.
 	</p>
-	<div class="visits"><span class="visitNumber">{data?.pageVisits}</span> page visits since 5th Sep 2023.</div>
+	<div class="visits">
+		<span class="visitNumber">{data?.pageVisits}</span> page visits since 5th Sep 2023.
+	</div>
 </div>
 
 <GithubCorner />
+
+{#each voices as voice}
+	<p>{voice.name}</p>
+	<p>{voice.lang}</p>
+{/each}
 
 <style>
 	*,
@@ -162,6 +172,10 @@
 
 	.visitNumber {
 		font-weight: bold;
+	}
+
+	form {
+		margin: 1em 0;
 	}
 	input[type='text'] {
 		width: 100%;
@@ -226,7 +240,7 @@
 		#page-wrapper {
 			width: 90%;
 			margin: 0 auto;
-			border-bottom: 1px  solid #498b50;
+			border-bottom: 1px solid #498b50;
 			box-shadow: none;
 			border-top: none;
 		}
