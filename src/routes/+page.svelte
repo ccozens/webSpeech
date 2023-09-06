@@ -82,13 +82,13 @@
 		<div class="msg">You're browsing on {device.name}, so this should work fine.</div>
 	{:else if device.type === 'mobile'}
 		<div class="msg">
-			However, you're browsing on {device.name}, so this might not work. Mobile devices have often have
-			custom text-to-speech accessibility features, so this likely won't behave. For example, on my
-			Android phone, the voice list is different to my MacBook Pro and the voice selection does not
-			work.
+			However, you're browsing on {device.name}, so this might not work. Mobile devices have often
+			have custom text-to-speech accessibility features, so this likely won't behave. For example,
+			on my Android phone, the voice list is different to my MacBook Pro and the voice selection
+			does not work.
 		</div>
 	{/if}
-	
+
 	<form>
 		<input type="text" bind:value={speechMsg} on:click={blankInput} />
 
@@ -140,11 +140,6 @@
 </div>
 
 <GithubCorner />
-
-{#each voices as voice}
-	<p>{voice.name}</p>
-	<p>{voice.lang}</p>
-{/each}
 
 <style>
 	*,
