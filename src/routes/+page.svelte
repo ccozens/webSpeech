@@ -120,7 +120,7 @@
 			>svelte REPL JavaScript version</a
 		>.
 	</p>
-	<div class="visits">Page visits: {data?.pageVisits} since 5th Sep 2023.</div>
+	<div class="visits"><span class="visitNumber">{data?.pageVisits}</span> page visits since 5th Sep 2023.</div>
 </div>
 
 <GithubCorner />
@@ -137,6 +137,8 @@
 
 	#page-wrapper {
 		width: 640px;
+		display: flex;
+		flex-direction: column;
 		background: #ffffff;
 		padding: 1em;
 		margin: 1em auto;
@@ -146,6 +148,7 @@
 
 	h1 {
 		margin-top: 0;
+		text-align: center;
 	}
 
 	.msg {
@@ -157,6 +160,9 @@
 		color: #cc0000;
 	}
 
+	.visitNumber {
+		font-weight: bold;
+	}
 	input[type='text'] {
 		width: 100%;
 		padding: 0.5em;
@@ -181,7 +187,7 @@
 	}
 
 	button {
-		display: inline-block;
+		/* display: inline-block; */
 		border-radius: 3px;
 		border: none;
 		font-size: 0.9rem;
@@ -191,8 +197,8 @@
 		color: #05340a;
 		-webkit-font-smoothing: antialiased;
 		font-weight: bold;
-		margin: 0;
-		width: 100%;
+		margin: 0 auto;
+		width: 90%;
 		text-align: center;
 	}
 
@@ -214,5 +220,15 @@
 
 	.credit > p {
 		margin: 0.3em;
+	}
+
+	@media (max-width: 640px) {
+		#page-wrapper {
+			width: 90%;
+			margin: 0 auto;
+			border-bottom: 1px  solid #498b50;
+			box-shadow: none;
+			border-top: none;
+		}
 	}
 </style>
