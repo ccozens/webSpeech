@@ -120,7 +120,7 @@
 			>svelte REPL JavaScript version</a
 		>.
 	</p>
-	<div class="visits">Page visits: {data?.pageVisits}</div>
+	<div class="visits">Page visits: {data?.pageVisits} since 5th Sep 2023.</div>
 </div>
 
 <GithubCorner />
