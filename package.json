@@ -9,7 +9,8 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
-		"format": "prettier --plugin-search-dir . --write ."
+		"format": "prettier --plugin-search-dir . --write .",
+		"test": "npx vitest"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
@@ -29,6 +30,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@vercel/kv": "^0.2.2"
+		"@vercel/kv": "^0.2.2",
+		"vitest": "^0.34.3"
 	}
 }
