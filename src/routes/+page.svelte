@@ -9,13 +9,13 @@
 
 	// create voice and voices vars
 	let voice: SpeechSynthesisVoice;
-	let voices = [];
+	let voices: SpeechSynthesisVoice[] = [];
 
 
 
 	 // get the list of voices
 	 async function loadVoices() {
-    return new Promise((resolve) => {
+    return new Promise<SpeechSynthesisVoice[]>((resolve) => {
       speechSynthesis.onvoiceschanged = () => {
         const voices = speechSynthesis.getVoices();
         resolve(voices);
