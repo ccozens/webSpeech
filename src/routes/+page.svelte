@@ -3,7 +3,8 @@
 	import { onMount } from 'svelte';
 	import GithubCorner from '$lib/components/GithubCorner.svelte';
 	import { parseUserAgent } from '$lib/functions/parseUserAgent.js';
-
+	import type { Device } from '$lib/types';
+	
 	// access data for page visits and user agent
 	export let data;
 	/*
@@ -25,7 +26,7 @@
 		});
 	}
 
-	let device: string = parseUserAgent(data.userAgent);
+	let device: Device = parseUserAgent(data.userAgent);
 	// load voices and parse user agent on mount
 
 	onMount(async () => {
@@ -77,7 +78,12 @@
 	<h1>Web Speech Synthesis Demo</h1>
 
 	<div bind:this={supportMsg} class="msg" />
-	<div class="msg">You're browsing on {device}</div>
+	<div class="msg">You're browsing on {device.name}, so this should work fine.</div>
+	{#if device.type === 'mobile'}
+		<div class="msg">
+			Mobile devices have often have custom text-to-speech accessibility features, so this likely won't behave. For example, on my Android phone, the voice list is different to my MacBook Pro and the voice selection does not work.
+		</div>
+	{/if}
 	<form>
 		<input type="text" bind:value={speechMsg} on:click={blankInput} />
 
