@@ -2,21 +2,19 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import GithubCorner from '$lib/components/GithubCorner.svelte';
-	import { parseUserAgent } from '$lib/functions/parseUserAgent.js';
 	import type { Device } from '$lib/types';
+	import { speak, parseUserAgent } from '$lib/functions/';
 
-	// access data for page visits and user agent
+	// access data for page visits
 	export let data;
-	/*
-	 * Check for browser support
-	 */
-	let supportMsg: HTMLDivElement;
 
 	// create voice and voices vars
 	let voice: SpeechSynthesisVoice;
 	let voices: SpeechSynthesisVoice[] = [];
 
-	// get the list of voices
+	// parse user agent
+	let device: Device = parseUserAgent(data.userAgent);
+	// load voices and parse user agent on mount
 	async function loadVoices() {
 		return new Promise<SpeechSynthesisVoice[]>((resolve) => {
 			speechSynthesis.onvoiceschanged = () => {
@@ -25,10 +23,8 @@
 			};
 		});
 	}
-
-	let device: Device = parseUserAgent(data.userAgent);
-	// load voices and parse user agent on mount
-
+	// Check for browser support
+	let supportMsg: HTMLDivElement;
 	onMount(async () => {
 		if ('speechSynthesis' in window) {
 			supportMsg.innerHTML = 'Your browser <strong>supports</strong> speech synthesis.';
@@ -48,20 +44,8 @@
 	let rate: number = 1; // 0.1 to 10
 	let pitch: number = 1; //0 to 2
 
-	function speak(speechMsg: string) {
-		speechSynthesis.cancel();
-		// create utterance
-		const utterance = new SpeechSynthesisUtterance(speechMsg);
-		// set utterance properties
-		utterance.voice = voice;
-		utterance.volume = volume;
-		utterance.rate = rate;
-		utterance.pitch = pitch;
-		speechSynthesis.speak(utterance);
-	}
-
 	function speakOnClick() {
-		speak(speechMsg);
+		speak(speechMsg, voice, volume, rate, pitch);
 	}
 
 	function blankInput() {
